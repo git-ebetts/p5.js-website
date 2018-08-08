@@ -266,14 +266,33 @@
   font-weight: bold;
 }
 
+
 /*
   //////////////////////////////////////////////////
     REFERENCE
   //////////////////////////////////////////////////
 */
 
-#reference section h1 {
+#reference-page section h1 {
   float:left;
+}
+
+#reference-page .params table p {
+  /* Recently-added support for Markdown means that every parameter
+   * description is wrapped in a paragraph element. (Previously, they weren't
+   * wrapped in any kind of element.)
+   *
+   * We may eventually want to display paragraphs as blocks, so that we
+   * can have lengthy descriptions for parameters, but for now we'll
+   * keep our pre-existing behavior and essentially make paragraphs
+   * "invisible" by rendering them inline. */
+  display: inline;
+
+  font-size: inherit;
+}
+
+#reference-page .param-optional {
+  color: #AFAFAF;
 }
 
 /* EXAMPLES IN REF */
@@ -337,11 +356,15 @@ pre.norender {
 }
 
 .edit_button {
-    left: 24.5em;
+    left: 21.42em;
 }
 
 .reset_button {
-    left: 27.5em;
+    left: 24.0em;
+}
+
+.copy_button {
+    left: 27.33em;
 }
 
 .display_button {
@@ -760,6 +783,11 @@ h3.contribute-title{
     border: none;
 }
 
+#exampleDisplay {  
+  display:flex;
+  flex-flow: column;
+}
+
 #popupExampleFrame {
   position: fixed;
   top: 0;
@@ -792,12 +820,17 @@ h3.contribute-title{
 }
 
 #exampleDisplay .edit_button {
-    left: 29em;
+    left: 25.42em;
     top: -2.5em;
 }
 
 #exampleDisplay .reset_button {
-    left: 32em;
+    left: 28.0em;
+    top: -2.5em;
+}
+
+#exampleDisplay .copy_button {
+    left: 31.33em;
     top: -2.5em;
 }
 
@@ -807,28 +840,31 @@ h3.contribute-title{
 
 
 #exampleDisplay .edit_space {
-    position: relative;
+  position: relative;
+  order: 3;
 }
 
 #exampleFrame {
-    height: 22em;
+  height: 22em;
+  order: 2;
 }
 
 #exampleEditor {
-    height: 500em;
-    width: 710px;
-    overflow: hidden;
-    margin-top: 0.5em;
-    color: #222;
-    font-family:
-      inconsolatamedium,
-      Consolas,
-      Monaco,
-      'Andale Mono',
-      monospace;
-    font-size: 1em !important;
-    background-color: #FFF;
-    line-height: 1em;
+  height: 500em;
+  width: 710px;
+  overflow: hidden;
+  margin-top: 0.5em;
+  color: #222;
+  font-family:
+    inconsolatamedium,
+    Consolas,
+    Monaco,
+    'Andale Mono',
+    monospace;
+  font-size: 1em !important;
+  background-color: #FFF;
+  line-height: 1em;
+  order: 4;
 }
 
 .ace_info {
@@ -1542,6 +1578,7 @@ footer {
 
 #notMobile-message {
   display: none;
+  order: 1;
 }
 
 #isMobile-displayButton {
@@ -1587,7 +1624,6 @@ footer {
       position: absolute;
       top: 1.5em;
       right: 0.75em;
-      display: none;
     }
 
 
@@ -1665,7 +1701,7 @@ footer {
     }
 
     #home-sketch-frame {
-      
+
       display: none; /* HIDDEN SKETCH */
     }
 
@@ -1675,11 +1711,15 @@ footer {
 
 
     #exampleDisplay .edit_button {
-      left: -0.5em;
+      left: -0.58em;
     }
 
     #exampleDisplay .reset_button {
-      left: 2.5em;
+      left: 3.0em;
+    }
+
+    #exampleDisplay .copy_button {
+      left: 6.44em;
     }
 
     #exampleEditor {
@@ -1728,7 +1768,6 @@ footer {
       position: absolute;
       top: 2.5em;
       right: 1em;
-      display: none;
     }
 
     #menu {
@@ -1740,10 +1779,11 @@ footer {
         /*float:left;*/
         border-top: transparent;
         border-bottom: transparent;
-        height: 14.25em;
         padding:1.25em 0;
         font-size: 0.92em;
         z-index: 100;
+        position: relative;
+        top: 0;
     }
 
     #menu li {

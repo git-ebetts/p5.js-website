@@ -1,4 +1,4 @@
-var langs = ['en', 'es'];
+var langs = ['en', 'es', 'zh-Hans'];
 
 // =================================================
 // Family bar:
@@ -43,81 +43,112 @@ window.onload = function() {
     search_form.attachEvent('onfocusout', close_field);
   }
 
+  // =================================================
+  // set tagline
+  var path = window.location.pathname;
+  var parts = path.split('/');
+  var tagInd = -1;
+  for (var i=0; i<parts.length; i++) {
+    if (parts[i].length) {
+      var langMatch = 0;
+      for (var j=0; j<langs.length; j++) {
+        if (parts[i] === langs[j]) {
+          langMatch = true;
+        }
+      }
+      if (!langMatch) {
+        tagInd = i;
+        break;
+      }
+    }
+  }
+  if (tagInd !== -1) {
+    var taglines = document.getElementsByClassName('tagline'); //divsToHide is an array
+    if (taglines.length) {
+      var taglineInd = Math.floor(taglines.length * Math.random());
+      taglines[taglineInd].style.display = 'block';
+    }
+  }
+
 
   // ===============================================
   // Language detection:
 
-  // @TODO remove if on i18n launch
-  if (window.location.hostname !== 'p5js.org') {
+  var test_local_storage = function(w) {
+    var tmp = 'p5js';
+    try {
+      w.localStorage.setItem(tmp, tmp);
+      w.localStorage.removeItem(tmp);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  };
+  var can_store = test_local_storage(window);
 
-    var test_local_storage = function(w) {
-      var tmp = 'p5js';
-      try {
-        w.localStorage.setItem(tmp, tmp);
-        w.localStorage.removeItem(tmp);
-        return true;
-      } catch (e) {
-        return false;
+  var get_browser_lang = function(w) {
+    var tmp = w.navigator.languages && w.navigator.languages[0]
+      || w.navigator.language || w.navigator.userLanguage;
+    tmp = tmp.split('-')[0];
+    for (var i=0, l=langs; i < l; i++) {
+      if (tmp == langs[i]) {
+        return langs[i];
       }
-    };
-    var can_store = test_local_storage(window);
+    }
+    return 'en';
+  };
+  var browser_lang = get_browser_lang(window);
 
-    var get_browser_lang = function(w) {
-      var tmp = w.navigator.languages && w.navigator.languages[0]
-        || w.navigator.language || w.navigator.userLanguage;
-      tmp = tmp.split('-')[0];
-      for (var i=0, l=langs; i < l; i++) {
-        if (tmp == langs[i]) {
+  var get_loc_lang = function(w) {
+    if ((w.location.pathname == '/') === false) {
+      for (var i=0, l=langs.length; i < l; i++) {
+        if (w.location.pathname.indexOf('/' + langs[i] + '/') !== -1) {
           return langs[i];
         }
       }
-      return 'en';
-    };
-    var browser_lang = get_browser_lang(window);
+    }
+    return 'en';
+  };
+  var loc = String(window.location.pathname);
+  var loc_lang = get_loc_lang(window);
+  var is_root = (loc == '/');
 
-    var get_loc_lang = function(w) {
-      if ((w.location.pathname == '/') === false) {
-        for (var i=0, l=langs.length; i < l; i++) {
-          if (w.location.pathname.indexOf('/' + langs[i] + '/') !== -1) {
-            return langs[i];
-          }
-        }
-      }
-      return 'en';
-    };
-    var loc = String(window.location.pathname);
-    var loc_lang = get_loc_lang(window);
-    var is_root = (loc == '/');
-
-    // Default lang:
-    var lang = 'en';
-    if (can_store) {
-      if (window.localStorage.getItem('lang') !== null) {
-        var saved_lang = window.localStorage.getItem('lang');
-        if (saved_lang !== loc_lang) {
-          if (saved_lang == 'en') {
-            loc = '/' + loc.replace('\/' + loc_lang + '\/', '');
-          } else {
-            loc = '/' + saved_lang + loc;
-          }
-          w.location = loc;
+  // Default lang:
+  var lang = 'en';
+  if (can_store) {
+    if (window.localStorage.getItem('lang') !== null) {
+      var saved_lang = window.localStorage.getItem('lang');
+      if (saved_lang !== loc_lang) {
+        if (saved_lang == 'en') {
+          loc = '/' + loc.replace('\/' + loc_lang + '\/', '');
         } else {
-          lang = saved_lang;
+          loc = '/' + saved_lang + loc;
         }
+        window.location = loc;
       } else {
-        if (is_root && browser_lang != loc_lang) {
-          loc = '/' + browser_lang;
-          window.location = loc;
-        }
+        lang = saved_lang;
       }
     } else {
-      lang = get_loc_lang();
+      if (is_root && browser_lang != loc_lang) { 
+        // if (lang !== 'pangu' || isStaging()) { // temp until chinese launch
+          loc = '/' + browser_lang;
+          window.location = loc;
+        // }
+      }
     }
-    window.lang = lang;
   } else {
-    window.lang = 'en';
+    lang = get_loc_lang();
   }
 
+  window.lang = lang;
+  
+  // temp until chinese launch
+  // if (lang !== 'pangu' || isStaging()) {
+  //   window.lang = lang;
+  // } 
+  // if (isStaging()) {
+  //   $('button[data-lang="zh-Hans"').show();
+  // }
 
   // ===============================================
   // Language change:
@@ -142,10 +173,13 @@ window.onload = function() {
     if (new_lang == 'en') {
       for (var j=0, l=langs.length; j < l; j++) {
         if (langs[j] != 'en') {
-          loc = '/' + loc.replace('\/' + langs[j] + '\/', '');
+          loc = loc.replace('\/' + langs[j] + '\/', '/');
         }
       }
     } else {
+      for (var j=0, l=langs.length; j < l; j++) {
+        loc = loc.replace('\/' + langs[j] + '\/', '/');
+      }
       loc = '/' + new_lang + loc;
     }
     if (can_store) {
@@ -167,14 +201,12 @@ window.onload = function() {
   }
 
   // =================================================
-  // disable i18n for now
-  // @TODO remove on i18n launch
-  var buttons = document.getElementById('i18n-btn');
-  if (window.location.hostname === 'p5js.org') {
-    buttons.parentNode.removeChild(buttons);
-  } else {
-    buttons.style.display = 'block';
+  // Chinese spacing
+  if (window.pangu) {
+    pangu.spacingPage();
   }
 
-
+  function isStaging() {
+    return window.location.href.indexOf('staging') !== -1 || window.location.href.indexOf('localhost') !== -1;
+  }
 }

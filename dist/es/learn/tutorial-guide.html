@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="/../../assets/css/all.css">
     <script type="text/javascript" src="//fast.fonts.net/jsapi/5ace315e-3b19-4568-9e85-5bfcb29004c0.js"></script>
 
+    <link rel="shortcut icon" href="/../../assets/img/favicon.ico">
+    <link rel="icon" href="/../../assets/img/favicon.ico">
+
 
     <script type="text/javascript" src="/../../assets/js/vendor/jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="/../../assets/js/vendor/ace-nc/ace.js"></script>
@@ -16,6 +19,7 @@
     <script type="text/javascript" src="/../../assets/js/vendor/prism.js"></script>
     <script type="text/javascript" src="/../../assets/js/scroll.js"></script>
     <script type="text/javascript" src="/../../assets/js/init.js"></script>
+
 
     <style>
     @font-face {
@@ -50,13 +54,13 @@
   <body>
 
     
-<!-- p5*js language buttons -->
-<div id="i18n-btn">
-  <h1 class='visuallyhidden'>Language Settings</h1>
-  <button data-lang="en">EN</button>
-  <button data-lang="es">ES</button>
-</div>
-    <a href="#content" class="skip">Skip to content</a>
+    <!-- p5*js language buttons -->
+    <div id="i18n-btn">
+      <h1 class='visuallyhidden'>Language Settings</h1>
+      <button data-lang='en'>EN</button>
+      <button data-lang='es'>ES</button>
+      <button data-lang='zh-Hans'>简体中文</button>
+    </div>    <a href="#content" class="skip">Skip to content</a>
     <!-- .container -->
     <div class="container">
 
@@ -80,29 +84,28 @@
 <div id="learn-page">
 
   
-<!-- site navigation -->
-<div class="column-span">
-  <nav role="navigation">
-    <ul id="menu">
-      <li><a href="/es/">Inicio</a></li>
-      <li><a href="/es/download/">Descargar</a></li>
-      <li><a href="/es/gallery/"></a></li>
-      <li><a href="/es/get-started/">Empezar</a></li>
-      <li><a href="/es/reference/">Referencia</a></li>
-      <li><a href="/es/libraries/">Bibliotecas</a></li>
-      <li><a href="/es/learn/">Aprender</a></li>
-      <li><a href="/es/examples/">Ejemplos</a></li>
-      <li><a href="/es/books/">Libros</a></li>
-      <li><a href="/es/community/">Comunidad</a></li>
-      <li><a href="http://forum.processing.org/two/" target=_blank class="other-link">Foro</a></li>
-      <li><a href="http://github.com/processing/p5.js" target=_blank class="other-link">GitHub</a></li>
-      <li><a href="http://twitter.com/p5xjs" target=_blank class="other-link">Twitter</a></li>
-    </ul>
-  </nav>
-</div>
-
-<!-- <script src="../../assets/js/scroll.js"></script> -->
-
+  <!-- site navigation -->
+  <div class="column-span">
+    <nav role="navigation">
+      <ul id="menu">
+        <li><a href="/es/">Inicio</a></li>
+        <li><a href="/es/download/">Descargar</a></li>
+        <li><a href="/es/gallery/"></a></li>
+        <li><a href="/es/get-started/">Empezar</a></li>
+        <li><a href="/es/reference/">Referencia</a></li>
+        <li><a href="/es/libraries/">Bibliotecas</a></li>
+        <li><a href="/es/learn/">Aprender</a></li>
+        <li><a href="/es/examples/">Ejemplos</a></li>
+        <li><a href="/es/books/">Libros</a></li>
+        <li><a href="/es/community/">Comunidad</a></li>
+        <li><a href="https://discourse.processing.org/categories" target=_blank class="other-link">Foro</a></li>
+        <li><a href="http://github.com/processing/p5.js" target=_blank class="other-link">GitHub</a></li>
+        <li><a href="http://twitter.com/p5xjs" target=_blank class="other-link">Twitter</a></li>
+      </ul>
+    </nav>
+  </div>
+  
+  <!-- <script src="../../assets/js/scroll.js"></script> -->
 
   <div class="column-span">
 
@@ -110,7 +113,7 @@
 
       <h1>Guía para contribuir con tutoriales de p5.js</h1>
       <div class="attribution">
-        Guía para contribuir con tutoriales de p5.js
+        Este tutorial fue escrito por Tega Brain.
       </div>
       <p>
         Invitamos a los educadores, colaboradores y entusiastas en general a contribuir con tutoriales de p5js. El proyecto de p5js hace que la programación creativa y el desarrollo de código abierto sean más accesibles para una comunidad diversa y estamos muy emocionados de publicar tutoriales sobre todos los aspectos del proceso de desarrollo. Nuestros materiales de aprendizaje hasta el momento incluyen guías sobre el aprendizaje de p5, la técnica de programación y cómo contribuir a un proyecto de código abierto.
@@ -142,7 +145,7 @@
       <img src="../../assets/learn/tutorial-guide/images/screenshot-1.png" alt="Screenshot">
 
       <p>
-        La carpeta que contiene tu tutorial se colocará en la carpeta 'tutoriales' del sitio de p5js. El archivo llamado index.hbs es la <a href="http://p5js.org/learn/">página de destino de los tutoriales de p5js,</a>
+        La carpeta que contiene tu tutorial se colocará en la carpeta 'tutoriales' del sitio de p5js. El archivo llamado index.hbs es la <a href="/es/learn/">página de destino de los tutoriales de p5js,</a>
         y el archivo test-tutorial.hbs es el tutorial de prueba.
       </p>
       <p>
@@ -174,10 +177,7 @@ Your code here!</br>
       <p>
         <ol>
           <li>
-            Si el ejemplo es editable como en<a href="http://p5js.org/reference/#/p5/ellipse"> las páginas de referencia</a>
-            del sitio de p5js, el bosquejo p5js debe ser incorporado en la página html usando el widget p5js. Sigue<a href="https://toolness.github.io/p5.js-widget/"> esta guía </a>
-            sobre cómo incorporar bosquejos p5js usando el widget escrito por <a href="https://github.com/toolness">Toolness</a>
-            . También puedes ver esto en acción en la  <a href="https://github.com/processing/p5.js-website/blob/master/src/templates/pages/learn/test-tutorial.hbs">  página del tutorial de prueba.</a></li>
+            Si el ejemplo es editable como en<a href="http://p5js.org/reference/#/p5/ellipse"> las páginas de referencia</a>del sitio de p5js, el bosquejo p5js debe ser incorporado en la página html usando el widget p5js. Sigue<a href="https://toolness.github.io/p5.js-widget/"> esta guía </a>sobre cómo incorporar bosquejos p5js usando el widget escrito por <a href="https://github.com/toolness">Toolness</a>. También puedes ver esto en acción en la <a href="https://github.com/processing/p5.js-website/blob/master/src/templates/pages/learn/test-tutorial.hbs"> página del tutorial de prueba</a>.</li>
           <li>
             Si el ejemplo es animado y/o interactivo pero no editable, entonces el bosquejo p5js debe de ser incorporado en la página como un iframe como se describe a continuación.
           </li>
@@ -214,7 +214,7 @@ Your code here!</br>
 <p>Aquí puedes ver el bosquejo puro en ejecución: </p>
 <a href="http://staging.p5js.org/assets/learn/test-tutorial/embed.html">http://staging.p5js.org/assets/learn/test-tutorial/embed.html</a>
 
-<p></p>
+<p>Y aquí está incorporado en el sitio p5 usando el código a continuación: </p>
 <a href="http://staging.p5js.org/learn/test-tutorial.html">http://staging.p5js.org/learn/test-tutorial.html</a>
 
 <p>Una cosa a recalcar es que necesitas ajustar manualmente el tamaño del iframe para que funcione de la mejor manera posible si las cosas son de tamaño estándar.</p>
@@ -230,11 +230,10 @@ Your code here!</br>
   </section>
 
   
-<footer>
-  <p> ¡Hola! p5.js fue creado por <a href='http://lauren-mccarthy.com' target="_blank">Lauren McCarthy</a> y es desarrollado por una comunidad de colaboradores, con apoyo de <a href="http://processing.org/foundation/" target="_blank">Processing Foundation</a>  y 
-  <a href="http://itp.nyu.edu/itp/" target="_blank">NYU ITP</a>. Identidad y diseño gráfico por <a href="http://jereljohnson.com/" target="_blank">Jerel Johnson</a>. <a href="/es/copyright.html">&copy; Info.</a></p>
-</footer>
-
+  <footer>
+    <p> ¡Hola! p5.js fue creado por <a href='http://lauren-mccarthy.com' target="_blank">Lauren McCarthy</a> y es desarrollado por una comunidad de colaboradores, con apoyo de <a href="http://processing.org/foundation/" target="_blank">Processing Foundation</a>  y 
+    <a href="http://itp.nyu.edu/itp/" target="_blank">NYU ITP</a>. Identidad y diseño gráfico por <a href="http://jereljohnson.com/" target="_blank">Jerel Johnson</a>. <a href="/es/copyright.html">&copy; Info.</a></p>
+  </footer>
 
 </div> <!-- end column-span -->
 
@@ -247,30 +246,29 @@ Your code here!</br>
      *<!-- to do: add fallback image in CSS -->
 </object>
 
-
 </div><!-- end id="get-started-page"  -->
 
 
     </div> <!-- close class='container'-->
 
     
-<div id="family">
-  <p class="left"><a href="http://processing.org">Processing</a>
-    <a class="here" href="/es/">p5.js</a>
-    <a href="http://py.processing.org/">Processing.py</a>
-    <a href="http://android.processing.org/">Processing for Android</a>
-  </p>
-  <form id="search_form" style='pointer-events:all;' name="search" method="get" action="https://www.google.com/search">
-    <input type="hidden" name="as_sitesearch" value="p5js.org" />
-    <input id='search_field' type="text" name="q" id="q" size="20" />
-    <label for="q"><input id="search_button" type="submit" value=" " name="Go" alt="submit search"/></label>
-  </form>
-
-  <p class="right">
-    <a href="https://processingfoundation.org/">Processing Foundation</a>
-  </p>
-</div>
-
+    <div id="family">
+      <p class="left"><a href="http://processing.org">Processing</a>
+        <a class="here" href="/es/">p5.js</a>
+        <a href="http://py.processing.org/">Processing.py</a>
+        <a href="http://android.processing.org/">Processing for Android</a>
+        <a href="http://pi.processing.org/">Processing for Pi</a>
+      </p>
+      <form id="search_form" style='pointer-events:all;' name="search" method="get" action="https://www.google.com/search">
+        <input type="hidden" name="as_sitesearch" value="p5js.org" />
+        <input id='search_field' type="text" name="q" id="q" size="20" />
+        <label for="q"><input id="search_button" type="submit" value=" " name="Go" alt="submit search"/></label>
+      </form>
+    
+      <p class="right">
+        <a href="https://processingfoundation.org/">Processing Foundation</a>
+      </p>
+    </div>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

@@ -6,6 +6,8 @@
 // use this if you want to match all subfolders:
 // '<%= config.src %>/templates/pages/**/*.hbs'
 
+const pkg = require('./package.json');
+
 module.exports = function(grunt) {
 
   require('time-grunt')(grunt);
@@ -35,7 +37,7 @@ module.exports = function(grunt) {
         ]
       },
       imagemin: {
-        files: '<%= config.src %>/assets/img/*.{png,jpg,jpeg,gif,svg}',
+        files: '<%= config.src %>/assets/img/*.{png,jpg,jpeg,gif,svg,ico}',
         tasks: ['newer:imagemin']
       },
       livereload: {
@@ -46,7 +48,7 @@ module.exports = function(grunt) {
           '<%= config.dist %>/{,*/}*.html',
           '<%= config.dist %>/assets/css/*.css',
           '<%= config.dist %>/assets/js/*.js',
-          '<%= config.dist %>/assets/img/*.{png,jpg,jpeg,gif,webp,svg}',
+          '<%= config.dist %>/assets/img/*.{png,jpg,jpeg,gif,webp,svg,ico}',
           '<%= config.dist %>/assets/p5_featured/{,*/}*.*',
           '<%= config.dist %>/assets/learn/{,*/}*.*'
         ]
@@ -87,10 +89,7 @@ module.exports = function(grunt) {
             'assemble-contrib-i18n'
           ],
           i18n: {
-            languages: [
-              'en',
-              'es'
-            ],
+            languages: pkg.languages,
             templates: [
               "<%= config.src %>/templates/pages/**/*.hbs",
             ]
@@ -101,15 +100,15 @@ module.exports = function(grunt) {
               {
                 pattern: ':lang',
                 replacement: function () {
-                  return this.language === 'en' ? '' : this.language;
+                  return this.language.toLowerCase() === 'en' ? '' : this.language.toLowerCase();
                 }
               },
               {
                 pattern: ':base',
                 replacement: function () {
-                  var check = this.basename.substring(this.basename.length-3);
-                  if (check === '-'+this.language) {
-                    return this.basename.substring(0, this.basename.length-3);
+                  var check = this.basename.lastIndexOf(this.language.toLowerCase());
+                  if (check > -1){
+                    return this.basename.substring(0, check-1);
                   } else return this.basename;
                 }
               }
@@ -118,6 +117,24 @@ module.exports = function(grunt) {
         },
         dest: '<%= config.dist %>',
         src: "!*.*"
+      }
+    },
+
+    requirejs: {
+      yuidoc_theme: {
+        options: {
+          baseUrl: '<%= config.src %>/yuidoc-p5-theme-src/scripts/',
+          mainConfigFile: '<%= config.src %>/yuidoc-p5-theme-src/scripts/config.js',
+          name: 'main',
+          out: '<%= config.src %>/templates/pages/reference/assets/js/reference.js',
+          optimize: 'none',
+          generateSourceMaps: true,
+          findNestedDependencies: true,
+          wrap: true,
+          paths: {
+            jquery: 'empty:'
+          }
+        }
       }
     },
 
@@ -130,7 +147,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: '<%= config.src %>/assets/img',
-          src: ['**/*.{png,jpg,gif,svg}'],
+          src: ['**/*.{png,jpg,gif,svg,ico}'],
           dest: '<%= config.dist %>/assets/img/'
         }]
       }
@@ -208,11 +225,23 @@ module.exports = function(grunt) {
         src: ['**'],
         dest: '<%= config.dist %>/assets/reference'
       },
+      reference_assets: {
+        expand: true,
+        cwd: '<%= config.src %>/templates/pages/reference/',
+        src: ['**/!(*.hbs)'],
+        dest: '<%= config.dist %>/reference/'
+      },
       reference_es: {
         expand: true,
         cwd: '<%= config.dist %>/reference',
         src: ['**'],
         dest: '<%= config.dist %>/es/reference'
+      },
+      reference_zh_Hans: {
+        expand: true,
+        cwd: '<%= config.dist %>/reference',
+        src: ['**'],
+        dest: '<%= config.dist %>/zh-Hans/reference'
       },
       offlineReference: {
         files: [
@@ -266,7 +295,7 @@ module.exports = function(grunt) {
         files: [
           {
             prepend: "referenceData = ",
-            input: '<%= config.dist %>/reference/data.json',
+            input: '<%= config.src %>/templates/pages/reference/data.json',
             output: '<%= config.src %>/offline-reference/js/data.js'
           }
         ]
@@ -287,9 +316,10 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-exec');
-  grunt.loadNpmTasks('assemble');
+  grunt.loadNpmTasks('grunt-assemble');
   grunt.loadNpmTasks('grunt-file-append');
   grunt.loadNpmTasks('grunt-contrib-compress');
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
 
   // multi-tasks: collections of other tasks
   grunt.registerTask('server', [
@@ -311,15 +341,23 @@ module.exports = function(grunt) {
     'postcss'
   ]);
 
+  // i18n tracking task
+  grunt.registerTask('i18n', function(){
+    var done = this.async();
+    require("./i18n.js")(done);
+  });
+
   // runs three tasks in order
   grunt.registerTask('build', [
     'exec',
     'clean',
+    'requirejs',
     'copy',
     'assemble',
     'optimize',
     'file_append',
-    'compress'
+    'compress',
+    'i18n'
   ]);
 
   // runs with just grunt command
