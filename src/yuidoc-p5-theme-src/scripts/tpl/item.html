@@ -1,17 +1,5 @@
 <h3><%=item.name%><% if (item.isMethod) { %>()<% } %></h3>
 
-<% if (item.example) { %>
-<div class="example">
-  <h4><span id="reference-example">Example</span></h4>
-  <span class="visuallyhidden">Examples for <%=item.name%></span>
-
-	<div class="example-content" data-alt="<%= item.alt %>">
-    <%= item.example %>
-  </div>
-</div>
-<% } %>
-
-
 <div class="description">
     
   <h4><span id="reference-description">Description</span></h4>
@@ -50,7 +38,7 @@
         if (name.substr(0, 3) === 'p5.') {
           name = name.substr(3);
         }
-	if (i !== 0) {
+  if (i !== 0) {
           if (i == refs.length - 1) {
             %> and <%
           } else {
@@ -64,6 +52,17 @@
   <% } %>
 
 </div>
+
+<% if (item.example) { %>
+<div class="example">
+  <h4><span id="reference-example">Example</span></h4>
+  <span class="visuallyhidden">Examples for <%=item.name%></span>
+
+  <div class="example-content" data-alt="<%= item.alt %>">
+    <%= item.example %>
+  </div>
+</div>
+<% } %>
 
 <% if (isConstructor || !isClass) { %>
 
@@ -169,7 +168,7 @@
 
 <% if (item.return) { %>
 <div>
-	<h4><span id="reference-returns">Returns</span></h4>
+  <h4><span id="reference-returns">Returns</span></h4>
     <% if (item.return.type) { %>
       <p class='returns'><span class="param-type label label-info"><%=item.return.type%></span>: <%= item.return.description %></p>
     <% } %>
